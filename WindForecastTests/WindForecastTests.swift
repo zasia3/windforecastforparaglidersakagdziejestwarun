@@ -17,7 +17,9 @@ class WindForecastTests: XCTestCase {
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
+        Favourites.clear()
+        
         super.tearDown()
     }
     
@@ -39,5 +41,33 @@ class WindForecastTests: XCTestCase {
         waitForExpectations(timeout: 1) { (error) in
             XCTAssertNil(error)
         }
+    }
+    
+    func testRequest() {
+        let expect = expectation(description: #function)
+        
+        WeatherLoader.wind(for:"Leeds"){ (result) in
+            
+            if case .success(_) = result {
+                expect.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 2) { (error) in
+            XCTAssertNil(error)
+        }
+    }
+    
+    func testFavourites() {
+        
+        let cities = Favourites.favouriteCities()
+        
+        XCTAssertEqual(cities.count, 0, "Initially there are no favourite cities")
+        
+        Favourites.add("Leeds")
+        Favourites.add("Łódź")
+        
+        let favouriteCities = Favourites.favouriteCities()
+        
+        XCTAssertEqual(favouriteCities.count, 2, "Two cities should be returned")
     }
 }

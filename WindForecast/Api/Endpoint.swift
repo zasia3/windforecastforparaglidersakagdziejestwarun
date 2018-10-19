@@ -17,7 +17,7 @@ struct Endpoint {
     static func city(matching name: String,
                      format: String) -> Endpoint {
         return Endpoint(
-            path: "/forecast",
+            path: "/data/2.5/forecast",
             queryItems: [
                 URLQueryItem(name: "appid", value: key),
                 URLQueryItem(name: "units", value: "metric"),
@@ -30,7 +30,7 @@ struct Endpoint {
     var url: URL? {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "api.openweathermap.org/data/2.5"
+        components.host = "api.openweathermap.org"
         components.path = path
         components.queryItems = queryItems
         

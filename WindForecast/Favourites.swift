@@ -31,4 +31,8 @@ struct Favourites {
         cities.append(city)
         defaults.set(cities, forKey: citiesKey)
     }
+    
+    static func clear() {
+        UserDefaults.standard.removeObject(forKey: citiesKey)
+    }
 }

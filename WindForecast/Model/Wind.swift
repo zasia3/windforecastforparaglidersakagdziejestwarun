@@ -8,10 +8,16 @@
 
 import Foundation
 
-struct Wind: Decodable {
+struct Wind: Codable {
     
-    let speed: Double
-    let direction: Double
+    var speed: Double
+    var direction: Double
+    
+    enum CodingKeys: String, CodingKey {
+
+        case speed
+        case direction = "deg"
+    }
     
     var icon: String {
         
@@ -24,10 +30,5 @@ struct Wind: Decodable {
     init(speed: Double, direction: Double) {
         self.speed = speed
         self.direction = direction
-    }
-    
-    init?(data: Data) {
-        speed = 0
-        direction = 0
     }
 }

@@ -46,10 +46,15 @@ final class WeatherVC: UIViewController {
         !cityName.isEmpty
         else { return }
         
-        WeatherLoader.wind(for: cityName) { (result) in
+        WeatherLoader.wind(for: cityName) { [weak self] (result) in
             switch result {
-            case .success(let wind): break
-            case .error(let error): break
+            case .success(let wind):
+                
+                self?.currentWind = wind
+                
+            case .failure(let error):
+                
+                self?.showAlert(for: error)
             }
         }
     }
@@ -59,6 +64,10 @@ final class WeatherVC: UIViewController {
             let _ = currentWind else { return }
         
         Favourites.add(cityName)
+    }
+    
+    func showAlert(for error: WeatherLoader.WeatherError) {
+        
     }
 }
 

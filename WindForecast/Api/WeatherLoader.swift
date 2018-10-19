@@ -17,20 +17,29 @@ final class WeatherLoader {
     
     enum Result {
         case success(Wind)
-        case error(WeatherError)
+        case failure(WeatherError)
     }
     
     static func wind(for city: String, completion: @escaping (Result) -> Void) {
         API.shared.wind(for: city) { (result) in
             switch result {
             case .success(let data):
-                if let wind = Wind(data: data) {
+                
+                guard let forecastService = try? JSONDecoder().decode(ForecastService.self, from: data) else {
+                    completion(.failure(.decodingError))
+                    return
+                }
+                
+                let forecast = Forecast(from: forecastService)
+                
+                if let wind = forecast.windForecasts.first {
                     completion(.success(wind))
                 } else {
-                    completion(.error(.decodingError))
+                    completion(.failure(.decodingError))
                 }
+               
             case .error(let apiError):
-                completion(.error(.apiError(apiError)))
+                completion(.failure(.apiError(apiError)))
             }
         }
     }

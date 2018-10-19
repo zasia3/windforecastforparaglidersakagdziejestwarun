@@ -24,8 +24,7 @@ final class API: NSObject {
     }
     
     private lazy var session: URLSession = {
-        let configuration = URLSessionConfiguration.background(withIdentifier: "weatherSession")
-        return URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
+        return URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
     }()
     
     func wind(for city: String, completion: @escaping (Result) -> Void) {
