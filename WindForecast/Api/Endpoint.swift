@@ -16,6 +16,7 @@ struct Endpoint {
     
     static func city(matching name: String,
                      format: String) -> Endpoint {
+        
         return Endpoint(
             path: "/data/2.5/forecast",
             queryItems: [

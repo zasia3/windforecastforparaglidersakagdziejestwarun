@@ -21,10 +21,45 @@ struct Wind: Codable {
     
     var icon: String {
         
-        if direction <= 45, direction >= 315 { return "N" }
-        if direction <= 135, direction > 45 { return "E" }
-        if direction <= 225, direction > 135 { return "S" }
-        return "W"
+        let icons = ["N", "E", "S", "W"]
+        
+        let index = directionIndex(for: direction, in: 4)
+        
+        return icons[index]
+        
+    }
+    
+    var emoji: String {
+        
+        let emojis = ["⬆️", "↗️", "➡️", "↘️", "⬇️", "↙️", "⬅️", "↖️"]
+        
+        let index = directionIndex(for: direction, in: 8)
+        
+        return emojis[index]
+    }
+    
+    func directionIndex(for direction: Double, in counts: Double) -> Int {
+        
+        var initialValue: Double = 0
+        let interval: Double = 360 / counts
+        
+        var minDiff = interval
+        var value: Double = 0
+        
+        while initialValue < 360 + interval {
+            
+            let diff = fabs(direction - initialValue)
+            if (diff < minDiff) {
+                minDiff = diff
+                value = initialValue
+            }
+            
+            initialValue += interval
+        }
+        
+        let index = value / interval
+        
+        return Int(index >= counts ? 0 : index)
     }
     
     init(speed: Double, direction: Double) {

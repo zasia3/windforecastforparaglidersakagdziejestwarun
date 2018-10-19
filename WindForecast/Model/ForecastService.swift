@@ -24,6 +24,7 @@ struct Forecast {
     var windForecasts: [Wind]
     
     init(from service: ForecastService) {
+        
         windForecasts = []
         
         for forecast in service.list {

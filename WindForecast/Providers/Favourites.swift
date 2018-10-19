@@ -28,6 +28,8 @@ struct Favourites {
             return
         }
         
+        guard !cities.contains(city) else { return }
+        
         cities.append(city)
         defaults.set(cities, forKey: citiesKey)
     }

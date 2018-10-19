@@ -34,7 +34,7 @@ class WindForecastTests: XCTestCase {
         
         WeatherLoader.wind(for:""){ (result) in
             
-            if case .error(_) = result {
+            if case .failure(_) = result {
                 expect.fulfill()
             }
         }
@@ -69,5 +69,21 @@ class WindForecastTests: XCTestCase {
         let favouriteCities = Favourites.favouriteCities()
         
         XCTAssertEqual(favouriteCities.count, 2, "Two cities should be returned")
+    }
+    
+    func testDirectionIndex() {
+        let testWind = Wind(speed: 0, direction: 0)
+        
+        var index = testWind.directionIndex(for: 4, in: 8)
+        XCTAssertEqual(index, 0)
+        
+        index = testWind.directionIndex(for: 355, in: 8)
+        XCTAssertEqual(index, 0)
+        
+        index = testWind.directionIndex(for: 280, in: 8)
+        XCTAssertEqual(index, 6)
+        
+        index = testWind.directionIndex(for: 270, in: 8)
+        XCTAssertEqual(index, 6)
     }
 }
