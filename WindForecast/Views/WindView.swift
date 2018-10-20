@@ -26,18 +26,6 @@ final class WindView: UIView {
         }
     }
     
-    func drawArrows(count: Int, boldOrder: Int?) {
-        
-        self.layer.sublayers = nil
-        
-        let angleInterval:CGFloat = 360.0 / CGFloat(count)
-        
-        for i in 0..<count {
-            let color = i == boldOrder ? UIColor.red : UIColor.lightGray
-            drawArrow(length: 50, angle: angleInterval * CGFloat(i), color: color)
-        }
-    }
-    
     private func drawArrow(length: CGFloat, angle: CGFloat, color: UIColor) {
         
         let arrow = UIBezierPath()

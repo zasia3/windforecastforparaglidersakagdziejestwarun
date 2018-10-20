@@ -64,6 +64,7 @@ final class WeatherVC: UIViewController {
         let first = forecast.windForecasts[0]
         speedLabel.text = "Wind speed: \(first.wind.speed) km/h"
         directionLabel.text = "Wind direction: \(first.wind.symbol)"
+        
         updateImage()
         
         guard forecast.windForecasts.count > 1 else { return }
@@ -85,8 +86,6 @@ final class WeatherVC: UIViewController {
         guard let wind = windForecasts?.windForecasts.first?.wind else { return }
         image.count = 8
         image.boldOrder = wind.index
-//        image.drawArrows(count: 8, boldOrder: directionIndex)
-//        image.layoutIfNeeded()
         image.setNeedsDisplay()
     }
     
@@ -110,7 +109,9 @@ final class WeatherVC: UIViewController {
     private func loadWind() {
         guard let currentCity = currentCity else { return }
         
-        WeatherLoader.windForecast(for: currentCity) { [weak self] (result) in
+        let force = type == .search
+        
+        WeatherLoader.windForecast(for: currentCity, force: force) { [weak self] (result) in
             switch result {
             case .success(let forecast):
                 

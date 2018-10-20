@@ -13,15 +13,12 @@ final class FavouritesTableVC: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var noDataView: UIView!
     
-    var cities = [String]() {
-        didSet {
-            reloadTable()
-        }
-    }
+    var cities = [String]()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         cities = Favourites.favouriteCities()
+        reloadTable()
     }
     
     private func reloadTable() {
@@ -56,5 +53,15 @@ final class FavouritesTableVC: UIViewController, UITableViewDelegate, UITableVie
         vc.type = .show
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            let city = cities[indexPath.row]
+            cities.remove(at: indexPath.row)
+            Favourites.delete(city)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

@@ -34,6 +34,23 @@ struct Favourites {
         defaults.set(cities, forKey: citiesKey)
     }
     
+    static func delete(_ city: String) {
+        
+        let defaults = UserDefaults.standard
+        
+        guard var cities = defaults.object(forKey: citiesKey) as? [String] else {
+            defaults.set([city], forKey: citiesKey)
+            return
+        }
+        
+        guard let index = cities.index(of: city) else { return }
+        
+        cities.remove(at: index)
+        defaults.set(cities, forKey: citiesKey)
+        
+        Cache.clear(for: city, type: .forecast)
+    }
+    
     static func clear() {
         UserDefaults.standard.removeObject(forKey: citiesKey)
     }

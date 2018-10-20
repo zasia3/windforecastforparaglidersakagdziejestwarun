@@ -29,27 +29,42 @@ final class WeatherLoader {
         case failure(WeatherError)
     }
     
-    static func windForecast(for city: String, completion: @escaping (Result) -> Void) {
+    static func windForecast(for city: String, force: Bool, completion: @escaping (Result) -> Void) {
+        
+        if !force {
+            if let data = Cache.data(for: city.uppercased(), type: .forecast) {
+                processData(data, completion: completion)
+                return
+            }
+        }
+        
         API.shared.wind(for: city) { (result) in
+            
             switch result {
             case .success(let data):
+                Cache.cache(data, for: city.uppercased(), type: .forecast)
+                processData(data, completion: completion)
                 
-                guard let forecastService = try? JSONDecoder().decode(ForecastService.self, from: data) else {
-                    completion(.failure(.decodingError))
-                    return
-                }
-                
-                let forecast = Forecast(from: forecastService)
-                
-                if forecast.windForecasts.first != nil {
-                    completion(.success(forecast))
-                } else {
-                    completion(.failure(.decodingError))
-                }
-               
             case .failure(let apiError):
+                
                 completion(.failure(.apiError(apiError)))
             }
+        }
+    }
+    
+    static func processData(_ data: Data, completion: @escaping (Result) -> Void) {
+        
+        guard let forecastService = try? JSONDecoder().decode(ForecastService.self, from: data) else {
+            completion(.failure(.decodingError))
+            return
+        }
+        
+        let forecast = Forecast(from: forecastService)
+        
+        if forecast.windForecasts.first != nil {
+            completion(.success(forecast))
+        } else {
+            completion(.failure(.decodingError))
         }
     }
 }
