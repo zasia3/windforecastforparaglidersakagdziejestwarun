@@ -24,11 +24,9 @@ final class FavouritesTableVC: UIViewController, UITableViewDelegate, UITableVie
         cities = Favourites.favouriteCities()
     }
     
-    
     private func reloadTable() {
         
         noDataView.isHidden = cities.count > 0
-        
         tableView.reloadData()
     }
 

@@ -25,11 +25,11 @@ final class WeatherLoader {
     }
     
     enum Result {
-        case success(Wind)
+        case success(Forecast)
         case failure(WeatherError)
     }
     
-    static func wind(for city: String, completion: @escaping (Result) -> Void) {
+    static func windForecast(for city: String, completion: @escaping (Result) -> Void) {
         API.shared.wind(for: city) { (result) in
             switch result {
             case .success(let data):
@@ -41,8 +41,8 @@ final class WeatherLoader {
                 
                 let forecast = Forecast(from: forecastService)
                 
-                if let wind = forecast.windForecasts.first {
-                    completion(.success(wind))
+                if forecast.windForecasts.first != nil {
+                    completion(.success(forecast))
                 } else {
                     completion(.failure(.decodingError))
                 }

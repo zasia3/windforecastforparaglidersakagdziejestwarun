@@ -20,45 +20,74 @@ final class WeatherVC: UIViewController {
     @IBOutlet weak var speedLabel: UILabel!
     @IBOutlet weak var directionLabel: UILabel!
     @IBOutlet weak var image: WindView!
-    @IBOutlet weak var favouriteButton: UIButton!
+    @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var favouriteButton: UIBarButtonItem!
     
     var type: WeatherVCType = .search
     
     var currentCity: String?
     
-    var currentWind: Wind?
+    var windForecasts: Forecast?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         speedLabel.text = "Wind speed: 🌬️"
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tap)
         
         updateView()
         loadWind()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateImage()
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
     private func updateView() {
         
-        let hidden = type == .show
-        
-        searchView.isHidden = hidden
-        favouriteButton.isHidden = hidden
+        searchView.isHidden = type == .show
         
         if let currentCity = currentCity {
             cityField.text = currentCity
             title = currentCity
         }
         
-        if let currentWind = currentWind {
-            speedLabel.text = "Wind speed: \(currentWind.speed) km/h"
-            directionLabel.text = "Wind direction: \(currentWind.symbol)"
-            updateImage(for: currentWind.index)
+        guard let forecast = windForecasts,
+                forecast.windForecasts.count > 0 else { return }
+        
+        let first = forecast.windForecasts[0]
+        speedLabel.text = "Wind speed: \(first.wind.speed) km/h"
+        directionLabel.text = "Wind direction: \(first.wind.symbol)"
+        updateImage()
+        
+        guard forecast.windForecasts.count > 1 else { return }
+        
+        for i in 1..<forecast.windForecasts.count {
+            let forecast = forecast.windForecasts[i]
+            let label = UILabel()
+            label.numberOfLines = 0
+            label.lineBreakMode = .byWordWrapping
+            label.font = UIFont.systemFont(ofSize: 14)
+            label.text = "\(forecast.dt_txt) \nwind speed \(forecast.wind.speed) km/h \(forecast.wind.emoji)"
+            label.textAlignment = .center
+            stackView.addArrangedSubview(label)
         }
     }
     
-    private func updateImage(for directionIndex: Int?) {
-        image.drawArrows(count: 8, boldOrder: directionIndex)
-        image.layoutIfNeeded()
+    private func updateImage() {
+        
+        guard let wind = windForecasts?.windForecasts.first?.wind else { return }
+        image.count = 8
+        image.boldOrder = wind.index
+//        image.drawArrows(count: 8, boldOrder: directionIndex)
+//        image.layoutIfNeeded()
+        image.setNeedsDisplay()
     }
     
     @IBAction func searchCity(_ sender: Any) {
@@ -73,7 +102,7 @@ final class WeatherVC: UIViewController {
     @IBAction func addToFaourites(_ sender: Any) {
         guard let cityName = cityField.text,
             !cityName.isEmpty,
-            let _ = currentWind else { return }
+            let _ = windForecasts else { return }
         
         Favourites.add(cityName.uppercased())
     }
@@ -81,15 +110,15 @@ final class WeatherVC: UIViewController {
     private func loadWind() {
         guard let currentCity = currentCity else { return }
         
-        WeatherLoader.wind(for: currentCity) { [weak self] (result) in
+        WeatherLoader.windForecast(for: currentCity) { [weak self] (result) in
             switch result {
-            case .success(let wind):
+            case .success(let forecast):
                 
-                self?.currentWind = wind
+                self?.windForecasts = forecast
                 
                 
             case .failure(let error):
-                self?.currentWind = nil
+                self?.windForecasts = nil
                 self?.showAlert(for: error)
             }
             

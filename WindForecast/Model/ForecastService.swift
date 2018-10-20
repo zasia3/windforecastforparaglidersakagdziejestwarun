@@ -12,23 +12,23 @@ import Foundation
 struct ForecastService: Decodable {
     
     var list: [WeatherForecast]
-    
-    struct WeatherForecast: Decodable {
-        
-        var wind: Wind
-    }
+}
+
+struct WeatherForecast: Decodable {
+    var dt_txt: String
+    var wind: Wind
 }
 
 struct Forecast {
     
-    var windForecasts: [Wind]
+    var windForecasts: [WeatherForecast]
     
     init(from service: ForecastService) {
         
         windForecasts = []
         
         for forecast in service.list {
-            windForecasts.append(forecast.wind)
+            windForecasts.append(forecast)
         }
     }
 }

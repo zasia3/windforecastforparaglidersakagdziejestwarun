@@ -10,6 +10,22 @@ import UIKit
 
 final class WindView: UIView {
     
+    var count: Int?
+    var boldOrder: Int?
+    
+    override func draw(_ rect: CGRect) {
+        self.layer.sublayers = nil
+        
+        guard let count = count else { return }
+        
+        let angleInterval:CGFloat = 360.0 / CGFloat(count)
+        
+        for i in 0..<count {
+            let color = i == boldOrder ? UIColor.red : UIColor.lightGray
+            drawArrow(length: 50, angle: angleInterval * CGFloat(i), color: color)
+        }
+    }
+    
     func drawArrows(count: Int, boldOrder: Int?) {
         
         self.layer.sublayers = nil

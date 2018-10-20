@@ -84,94 +84,103 @@
             </objects>
             <point key="canvasLocation" x="1933.5999999999999" y="108.39580209895054"/>
         </scene>
-        <!--WeatherVC-->
+        <!--Title-->
         <scene sceneID="QFF-4h-EXT">
             <objects>
                 <viewController storyboardIdentifier="WeatherVC" id="KPY-6m-bzJ" customClass="WeatherVC" customModule="WindForecast" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6fD-Z7-0Xt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KMW-Uo-aiM">
-                                <rect key="frame" x="10" y="74" width="355" height="380"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjf-KC-6RW">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="T4Y-HR-ycn">
-                                        <rect key="frame" x="0.0" y="0.0" width="355" height="50"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KMW-Uo-aiM">
+                                        <rect key="frame" x="0.0" y="10" width="375" height="711"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KiR-9R-a6f">
-                                                <rect key="frame" x="0.0" y="0.0" width="285" height="50"/>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eP1-Mm-Cbe">
-                                                <rect key="frame" x="295" y="0.0" width="60" height="50"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="T4Y-HR-ycn">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KiR-9R-a6f">
+                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="50"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eP1-Mm-Cbe">
+                                                        <rect key="frame" x="315" y="0.0" width="60" height="50"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="60" id="T12-7u-WWK"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Search"/>
+                                                        <connections>
+                                                            <action selector="searchCity:" destination="KPY-6m-bzJ" eventType="touchUpInside" id="1PH-0I-ZsI"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="60" id="T12-7u-WWK"/>
+                                                    <constraint firstAttribute="height" constant="50" id="ZAw-ST-k69"/>
                                                 </constraints>
-                                                <state key="normal" title="Search"/>
-                                                <connections>
-                                                    <action selector="searchCity:" destination="KPY-6m-bzJ" eventType="touchUpInside" id="1PH-0I-ZsI"/>
-                                                </connections>
-                                            </button>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukX-ie-qGP">
+                                                <rect key="frame" x="0.0" y="60" width="375" height="431"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAu-gt-l6l">
+                                                <rect key="frame" x="0.0" y="501" width="375" height="50"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MU-CP-uRS" customClass="WindView" customModule="WindForecast" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="561" width="375" height="150"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="150" id="NYS-Pi-AYz"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="ZAw-ST-k69"/>
+                                            <constraint firstItem="SAu-gt-l6l" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="VPL-UP-vJH"/>
+                                            <constraint firstItem="ukX-ie-qGP" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="qNQ-zv-LpY"/>
                                         </constraints>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ukX-ie-qGP">
-                                        <rect key="frame" x="0.0" y="60" width="355" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAu-gt-l6l">
-                                        <rect key="frame" x="0.0" y="120" width="355" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MU-CP-uRS" customClass="WindView" customModule="WindForecast" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="180" width="355" height="200"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="NYS-Pi-AYz"/>
-                                        </constraints>
-                                    </view>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WRZ-bW-iQ3">
-                                        <rect key="frame" x="146" y="380" width="63" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="rzs-wa-yN0"/>
-                                        </constraints>
-                                        <state key="normal" title="Favourite"/>
-                                        <connections>
-                                            <action selector="addToFaourites:" destination="KPY-6m-bzJ" eventType="touchUpInside" id="rQ8-1o-GjC"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="T4Y-HR-ycn" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="NBj-yS-0vt"/>
-                                    <constraint firstItem="SAu-gt-l6l" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="VPL-UP-vJH"/>
-                                    <constraint firstItem="4MU-CP-uRS" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="mvg-ZH-9nK"/>
-                                    <constraint firstItem="ukX-ie-qGP" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="qNQ-zv-LpY"/>
+                                    <constraint firstItem="KMW-Uo-aiM" firstAttribute="top" secondItem="Wjf-KC-6RW" secondAttribute="top" constant="10" id="4Q0-Mn-vGo"/>
+                                    <constraint firstItem="KMW-Uo-aiM" firstAttribute="leading" secondItem="Wjf-KC-6RW" secondAttribute="leading" id="JJF-sF-6Vb"/>
+                                    <constraint firstAttribute="trailing" secondItem="KMW-Uo-aiM" secondAttribute="trailing" id="Rdv-8b-geU"/>
+                                    <constraint firstAttribute="bottom" secondItem="KMW-Uo-aiM" secondAttribute="bottom" id="RzS-ZW-6XD"/>
                                 </constraints>
-                            </stackView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="KMW-Uo-aiM" firstAttribute="top" secondItem="AYn-DC-Xkz" secondAttribute="top" constant="10" id="3nJ-t3-76v"/>
-                            <constraint firstItem="KMW-Uo-aiM" firstAttribute="leading" secondItem="AYn-DC-Xkz" secondAttribute="leading" constant="10" id="Iji-P9-aWH"/>
-                            <constraint firstItem="AYn-DC-Xkz" firstAttribute="trailing" secondItem="KMW-Uo-aiM" secondAttribute="trailing" constant="10" id="OV2-Qk-tab"/>
+                            <constraint firstItem="KMW-Uo-aiM" firstAttribute="width" secondItem="6fD-Z7-0Xt" secondAttribute="width" id="Wa4-cw-rmN"/>
+                            <constraint firstItem="Wjf-KC-6RW" firstAttribute="top" secondItem="AYn-DC-Xkz" secondAttribute="top" id="Wru-3x-wuH"/>
+                            <constraint firstItem="AYn-DC-Xkz" firstAttribute="bottom" secondItem="Wjf-KC-6RW" secondAttribute="bottom" id="hK0-SR-Yel"/>
+                            <constraint firstItem="Wjf-KC-6RW" firstAttribute="leading" secondItem="AYn-DC-Xkz" secondAttribute="leading" id="uay-6h-pFg"/>
+                            <constraint firstItem="AYn-DC-Xkz" firstAttribute="trailing" secondItem="Wjf-KC-6RW" secondAttribute="trailing" id="xSj-K6-g0m"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AYn-DC-Xkz"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="CQr-Z7-Dky">
+                        <barButtonItem key="rightBarButtonItem" title="Favourite" id="Ewj-gu-lSK">
+                            <connections>
+                                <action selector="addToFaourites:" destination="KPY-6m-bzJ" id="6b7-Pg-RfD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="cityField" destination="KiR-9R-a6f" id="AhD-90-B92"/>
                         <outlet property="directionLabel" destination="SAu-gt-l6l" id="GC6-zF-KXl"/>
-                        <outlet property="favouriteButton" destination="WRZ-bW-iQ3" id="rqw-Bi-kLX"/>
+                        <outlet property="favouriteButton" destination="Ewj-gu-lSK" id="Tf8-6f-u14"/>
                         <outlet property="image" destination="4MU-CP-uRS" id="O8t-iH-G8h"/>
                         <outlet property="searchView" destination="T4Y-HR-ycn" id="Mw6-vj-87y"/>
                         <outlet property="speedLabel" destination="ukX-ie-qGP" id="soF-lt-b59"/>
+                        <outlet property="stackView" destination="KMW-Uo-aiM" id="1TY-9o-dHs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vY4-o2-53d" userLabel="First Responder" sceneMemberID="firstResponder"/>
