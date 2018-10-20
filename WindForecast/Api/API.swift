@@ -10,9 +10,11 @@ import Foundation
 
 final class API: NSObject {
     
+    typealias Completion = (Result) -> Void
+    
     static let shared = API()
     
-    enum WeatherError: Error {
+    enum APIError: Error {
         case incorrectRequest
         case apiError
         case unknown
@@ -20,40 +22,82 @@ final class API: NSObject {
     
     enum Result {
         case success(Data)
-        case error(WeatherError)
+        case failure(APIError)
+    }
+    
+    private var tasks = [Task]()
+    
+    private struct Task {
+        var taskId: Int!
+        var city: String!
+        var completions = [Completion]()
     }
     
     private lazy var session: URLSession = {
-        return URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: OperationQueue.main)
+        let configuration = URLSessionConfiguration.background(withIdentifier: "ForecastDownloadSession")
+        return URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
     }()
     
-    func wind(for city: String, completion: @escaping (Result) -> Void) {
+    func wind(for city: String, completion: @escaping Completion) {
         
         guard !city.isEmpty else {
-            completion(.error(.incorrectRequest))
+            completion(.failure(.incorrectRequest))
             return
         }
         
-        request(.city(matching: city, format: "json")) { result in
-
-            completion(result)
+        let existingTasks = tasks.filter{ $0.city == city }
+        if var task = existingTasks.first {
+            task.completions.append(completion)
+            return
         }
+        
+        request(.city(matching: city, format: "json"), city: city, completion: completion)
     }
     
-    private func request(_ endpoint: Endpoint, completion: @escaping (Result) -> Void) {
+    private func request(_ endpoint: Endpoint, city: String, completion: @escaping Completion) {
         guard let url = endpoint.url else {
-            return completion(.error(.incorrectRequest))
+            return completion(.failure(.incorrectRequest))
         }
         
-        let task = session.dataTask(with: url) {
-            data, _, error in
-            
-            let result = data.map(Result.success) ??
-                .error(.apiError)
-            
-            completion(result)
-        }
+        let sessionTask = session.dataTask(with: url)
+        var task = Task()
+        task.taskId = sessionTask.taskIdentifier
+        task.city = city
+        task.completions.append(completion)
         
-        task.resume()
+        tasks.append(task)
+        
+        sessionTask.resume()
+    }
+}
+
+extension API: URLSessionDataDelegate {
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        
+        processTask(with: dataTask.taskIdentifier, data: data)
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        
+        processTask(with: task.taskIdentifier, data: nil)
+    }
+    
+    func processTask(with identifier: Int, data: Data?) {
+        
+        let existingTasks = tasks.filter{ $0.taskId == identifier }
+        guard let task = existingTasks.first else { return }
+        
+        for completion in task.completions {
+            
+            if let data = data {
+                completion(.success(data))
+            } else {
+                completion(.failure(.apiError))
+            }
+        }
+        if let index = tasks.index(where: { $0.taskId == task.taskId }) {
+            tasks.remove(at: index)
+        }
     }
 }

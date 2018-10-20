@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -94,7 +93,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KMW-Uo-aiM">
-                                <rect key="frame" x="10" y="74" width="355" height="248"/>
+                                <rect key="frame" x="10" y="74" width="355" height="380"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="T4Y-HR-ycn">
                                         <rect key="frame" x="0.0" y="0.0" width="355" height="50"/>
@@ -126,15 +125,24 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MU-CP-uRS">
-                                        <rect key="frame" x="0.0" y="120" width="355" height="128"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAu-gt-l6l">
+                                        <rect key="frame" x="0.0" y="120" width="355" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MU-CP-uRS" customClass="WindView" customModule="WindForecast" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="180" width="355" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="4MU-CP-uRS" secondAttribute="height" multiplier="355:128" id="eNi-vf-rai"/>
+                                            <constraint firstAttribute="height" constant="200" id="NYS-Pi-AYz"/>
                                         </constraints>
                                     </view>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WRZ-bW-iQ3">
-                                        <rect key="frame" x="146" y="248" width="63" height="0.0"/>
+                                        <rect key="frame" x="146" y="380" width="63" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="rzs-wa-yN0"/>
+                                        </constraints>
                                         <state key="normal" title="Favourite"/>
                                         <connections>
                                             <action selector="addToFaourites:" destination="KPY-6m-bzJ" eventType="touchUpInside" id="rQ8-1o-GjC"/>
@@ -143,6 +151,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="T4Y-HR-ycn" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="NBj-yS-0vt"/>
+                                    <constraint firstItem="SAu-gt-l6l" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="VPL-UP-vJH"/>
                                     <constraint firstItem="4MU-CP-uRS" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="mvg-ZH-9nK"/>
                                     <constraint firstItem="ukX-ie-qGP" firstAttribute="width" secondItem="KMW-Uo-aiM" secondAttribute="width" id="qNQ-zv-LpY"/>
                                 </constraints>
@@ -158,6 +167,7 @@
                     </view>
                     <connections>
                         <outlet property="cityField" destination="KiR-9R-a6f" id="AhD-90-B92"/>
+                        <outlet property="directionLabel" destination="SAu-gt-l6l" id="GC6-zF-KXl"/>
                         <outlet property="favouriteButton" destination="WRZ-bW-iQ3" id="rqw-Bi-kLX"/>
                         <outlet property="image" destination="4MU-CP-uRS" id="O8t-iH-G8h"/>
                         <outlet property="searchView" destination="T4Y-HR-ycn" id="Mw6-vj-87y"/>

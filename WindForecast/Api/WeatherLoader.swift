@@ -12,7 +12,16 @@ final class WeatherLoader {
     
     enum WeatherError: Error {
         case decodingError
-        case apiError(API.WeatherError)
+        case apiError(API.APIError)
+        
+        var description: String {
+            switch self {
+            case .decodingError:
+                return "Could not decode received data"
+            case .apiError(_):
+                return "Could not retrieve data"
+            }
+        }
     }
     
     enum Result {
@@ -38,7 +47,7 @@ final class WeatherLoader {
                     completion(.failure(.decodingError))
                 }
                
-            case .error(let apiError):
+            case .failure(let apiError):
                 completion(.failure(.apiError(apiError)))
             }
         }

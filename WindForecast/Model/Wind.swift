@@ -29,6 +29,20 @@ struct Wind: Codable {
         
     }
     
+    var symbol: String {
+        
+        let symbols = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        
+        let index = directionIndex(for: direction, in: 8)
+        
+        return symbols[index]
+        
+    }
+    
+    var index: Int {
+        return directionIndex(for: direction, in: 8)
+    }
+    
     var emoji: String {
         
         let emojis = ["⬆️", "↗️", "➡️", "↘️", "⬇️", "↙️", "⬅️", "↖️"]

@@ -18,7 +18,8 @@ final class WeatherVC: UIViewController {
     @IBOutlet weak var searchView: UIStackView!
     @IBOutlet weak var cityField: UITextField!
     @IBOutlet weak var speedLabel: UILabel!
-    @IBOutlet weak var image: UIView!
+    @IBOutlet weak var directionLabel: UILabel!
+    @IBOutlet weak var image: WindView!
     @IBOutlet weak var favouriteButton: UIButton!
     
     var type: WeatherVCType = .search
@@ -30,7 +31,7 @@ final class WeatherVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        speedLabel.text = "🌬️"
+        speedLabel.text = "Wind speed: 🌬️"
         
         updateView()
         loadWind()
@@ -45,11 +46,19 @@ final class WeatherVC: UIViewController {
         
         if let currentCity = currentCity {
             cityField.text = currentCity
+            title = currentCity
         }
         
         if let currentWind = currentWind {
-            speedLabel.text = "\(currentWind.speed) km/h"
+            speedLabel.text = "Wind speed: \(currentWind.speed) km/h"
+            directionLabel.text = "Wind direction: \(currentWind.symbol)"
+            updateImage(for: currentWind.index)
         }
+    }
+    
+    private func updateImage(for directionIndex: Int?) {
+        image.drawArrows(count: 8, boldOrder: directionIndex)
+        image.layoutIfNeeded()
     }
     
     @IBAction func searchCity(_ sender: Any) {
@@ -66,7 +75,7 @@ final class WeatherVC: UIViewController {
             !cityName.isEmpty,
             let _ = currentWind else { return }
         
-        Favourites.add(cityName)
+        Favourites.add(cityName.uppercased())
     }
     
     private func loadWind() {
@@ -78,6 +87,7 @@ final class WeatherVC: UIViewController {
                 
                 self?.currentWind = wind
                 
+                
             case .failure(let error):
                 self?.currentWind = nil
                 self?.showAlert(for: error)
@@ -88,6 +98,14 @@ final class WeatherVC: UIViewController {
     }
     
     func showAlert(for error: WeatherLoader.WeatherError) {
+        
+        let defaultAction = UIAlertAction(title: "OK", style: .default) { (action) in
+        }
+        
+        let alert = UIAlertController(title: "Error", message: error.description, preferredStyle: .alert)
+        alert.addAction(defaultAction)
+        
+        self.present(alert, animated: true, completion: nil)
         
     }
 }
