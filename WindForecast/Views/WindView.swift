@@ -42,8 +42,8 @@ final class WindView: UIView {
         arrowLayer.lineWidth = 3
         arrowLayer.path = arrow.cgPath
         arrowLayer.fillColor = UIColor.clear.cgColor
-        arrowLayer.lineJoin = kCALineJoinRound
-        arrowLayer.lineCap = kCALineCapRound
+        arrowLayer.lineJoin = CAShapeLayerLineJoin.round
+        arrowLayer.lineCap = CAShapeLayerLineCap.round
         
         self.layer.addSublayer(arrowLayer)
     }

@@ -216,9 +216,11 @@
 				TargetAttributes = {
 					52B6FD9A2179172E00A97DDB = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 					52B6FDAE2179172F00A97DDB = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = 52B6FD9A2179172E00A97DDB;
 					};
 				};
@@ -447,7 +449,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zatorska.WindForecast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -465,7 +467,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zatorska.WindForecast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -485,7 +487,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zatorska.WindForecastTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WindForecast.app/WindForecast";
 			};
@@ -506,7 +508,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zatorska.WindForecastTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WindForecast.app/WindForecast";
 			};
