@@ -30,13 +30,13 @@ final class WindView: UIView {
         
         let arrow = UIBezierPath()
         
-        arrow.addArrow(start: center, end: CGPoint(x: center.x, y: center.y - length), length: 20)
+        let centerPoint = CGPoint(x: frame.width / 2, y: frame.height / 2)
         
-        arrow.apply(CGAffineTransform(translationX: -center.x, y: -center.y))
+        arrow.addArrow(start: centerPoint, end: CGPoint(x: centerPoint.x, y: centerPoint.y - length), length: 20)
+        
+        arrow.apply(CGAffineTransform(translationX: -centerPoint.x, y: -centerPoint.y))
         arrow.apply(CGAffineTransform(rotationAngle: angle.degreesToRadians))
-        arrow.apply(CGAffineTransform(translationX: center.x, y: center.y))
-        arrow.apply(CGAffineTransform(translationX: 0, y: -length))
-        
+        arrow.apply(CGAffineTransform(translationX: centerPoint.x, y: centerPoint.y))
         let arrowLayer = CAShapeLayer()
         arrowLayer.strokeColor = color.cgColor
         arrowLayer.lineWidth = 3

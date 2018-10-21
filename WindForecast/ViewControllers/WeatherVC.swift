@@ -55,7 +55,7 @@ final class WeatherVC: UIViewController {
         
         if let currentCity = currentCity {
             cityField.text = currentCity
-            title = currentCity
+            title = currentCity.uppercased()
         }
         
         guard let forecast = windForecasts,
@@ -94,16 +94,16 @@ final class WeatherVC: UIViewController {
         guard let cityName = cityField.text,
                 !cityName.isEmpty else { return }
         
-        currentCity = cityName
+        currentCity = cityName.uppercased()
         loadWind()
     }
     
     @IBAction func addToFaourites(_ sender: Any) {
-        guard let cityName = cityField.text,
-            !cityName.isEmpty,
+        guard let currentCity = currentCity,
+            !currentCity.isEmpty,
             let _ = windForecasts else { return }
         
-        Favourites.add(cityName.uppercased())
+        Favourites.add(currentCity)
     }
     
     private func loadWind() {

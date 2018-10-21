@@ -32,7 +32,7 @@ class WindForecastTests: XCTestCase {
         
         let expect = expectation(description: #function)
         
-        WeatherLoader.wind(for:""){ (result) in
+        WeatherLoader.windForecast(for:"", force: true){ (result) in
             
             if case .failure(_) = result {
                 expect.fulfill()
@@ -46,7 +46,7 @@ class WindForecastTests: XCTestCase {
     func testRequest() {
         let expect = expectation(description: #function)
         
-        WeatherLoader.wind(for:"Leeds"){ (result) in
+        WeatherLoader.windForecast(for:"Leeds", force: true){ (result) in
             
             if case .success(_) = result {
                 expect.fulfill()
@@ -85,5 +85,34 @@ class WindForecastTests: XCTestCase {
         
         index = testWind.directionIndex(for: 270, in: 8)
         XCTAssertEqual(index, 6)
+    }
+    
+    func testCache() {
+        
+        let text = "tralala"
+        guard let data = text.data(using: .utf8) else {
+            XCTFail()
+            return
+        }
+        
+        Cache.cache(data, for: "testCache", type: .forecast)
+        
+        sleep(2)
+        
+        var cachedData = Cache.data(for: "testCache", type: .forecast, cacheTime: 1)
+        
+        XCTAssertNil(cachedData)
+        
+        cachedData = Cache.data(for: "testCache", type: .forecast, cacheTime: 5)
+        
+        guard let cachedData1 = cachedData else {
+            
+            XCTFail()
+            return
+        }
+        let decodedText = String(data:cachedData1, encoding: .utf8)
+        
+        XCTAssertEqual(text, decodedText)
+
     }
 }

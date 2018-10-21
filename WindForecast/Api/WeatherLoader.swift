@@ -10,6 +10,8 @@ import Foundation
 
 final class WeatherLoader {
     
+    static let cachedPeriod: TimeInterval = 3600
+    
     enum WeatherError: Error {
         case decodingError
         case apiError(API.APIError)
@@ -32,7 +34,7 @@ final class WeatherLoader {
     static func windForecast(for city: String, force: Bool, completion: @escaping (Result) -> Void) {
         
         if !force {
-            if let data = Cache.data(for: city.uppercased(), type: .forecast) {
+            if let data = Cache.data(for: city.uppercased(), type: .forecast, cacheTime: cachedPeriod) {
                 processData(data, completion: completion)
                 return
             }

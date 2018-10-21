@@ -14,33 +14,44 @@ class Cache {
         case forecast
     }
     
+    struct CacheObject: Codable {
+        var date = Date()
+        var data: Data!
+    }
+    
     static func cache(_ data: Data, for key: String, type: Types) {
-        
         let defaults = UserDefaults.standard
         
-        guard var dictionary = defaults.object(forKey: type.rawValue) as? [String:[String : Any]] else {
-            let entry = ["date": Date(), "data": data] as [String : Any]
-            defaults.set([key: entry], forKey: type.rawValue)
+        guard var dictionary = defaults.object(forKey: type.rawValue) as? [String:Data] else {
+            var entry = CacheObject()
+            entry.data = data
+            if let entryData = try? JSONEncoder().encode(entry) {
+                defaults.set([key: entryData], forKey: type.rawValue)
+            }
             return
         }
         
-        let entry = ["date": Date(), "data": data] as [String : Any]
-        dictionary[key] = entry
+        var entry = CacheObject()
+        entry.data = data
+        if let entryData = try? JSONEncoder().encode(entry) {
+            dictionary[key] = entryData
+        }
         defaults.set(dictionary, forKey: type.rawValue)
     }
     
-    static func data(for key: String, type: Types) -> Data? {
+    static func data(for key: String, type: Types, cacheTime: TimeInterval) -> Data? {
         
         let defaults = UserDefaults.standard
         
-        guard let dictionary = defaults.object(forKey: type.rawValue) as? [String:[String : Any]],
-            let object = dictionary[key],
-            let date = object["date"] as? Date else { return nil }
+        guard var dictionary = defaults.object(forKey: type.rawValue) as? [String:Data],
+            let objectData = dictionary[key] else { return nil }
+                
+        guard let object = try? JSONDecoder().decode(CacheObject.self, from: objectData) else { return nil }
         
-        let timeDiff = Date().timeIntervalSince(date)
+        let timeDiff = Date().timeIntervalSince(object.date)
         
-        if timeDiff <= 3600 {
-            return object["data"] as? Data
+        if timeDiff <= cacheTime {
+            return object.data
         }
         
         return nil
